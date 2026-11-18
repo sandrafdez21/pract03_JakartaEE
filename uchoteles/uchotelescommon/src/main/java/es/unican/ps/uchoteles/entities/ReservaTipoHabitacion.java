@@ -10,5 +10,10 @@ public class ReservaTipoHabitacion {
     private int numHabitaciones;
 
     private Habitacion habitacion;
+
+    public ReservaTipoHabitacion (int numHabitaciones, Habitacion habitacion) {
+        this.numHabitaciones = numHabitaciones;
+        this.habitacion = habitacion;
+    }
     
 }

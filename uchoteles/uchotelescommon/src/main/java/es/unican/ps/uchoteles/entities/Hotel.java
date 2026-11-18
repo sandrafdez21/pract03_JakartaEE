@@ -1,5 +1,6 @@
 package es.unican.ps.uchoteles.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -20,5 +21,14 @@ public class Hotel {
     private List<Habitacion> habitaciones;
 
     private List<Reserva> reservas;
+
+    public Hotel(String nombre, String direccion, String localidad, Categoria categoria) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.localidad = localidad;
+        this.categoria = categoria;
+        habitaciones = new ArrayList<Habitacion>();
+        reservas = new ArrayList<Reserva>();
+    }
 
 }

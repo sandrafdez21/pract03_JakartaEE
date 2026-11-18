@@ -23,4 +23,6 @@ public class Reserva {
     private DatosPago datosPago;
 
     private List<ReservaTipoHabitacion> habitacionesReservadas;
+
+    
 }

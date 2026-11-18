@@ -11,5 +11,5 @@ public interface IReservasDAO {
     public List<Reserva> reservas();
     public Boolean modificarReserva(Reserva reserva);
     public Reserva eliminarReserva(Reserva reserva);
-    public List<Reserva> reservasPorHotel(Hotel hotel);
+    public List<Reserva> reservasPorHotel(Hotel hotel) throws DataAccessException;
 }

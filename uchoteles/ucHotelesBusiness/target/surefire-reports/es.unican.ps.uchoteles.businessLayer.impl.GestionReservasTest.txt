@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: es.unican.ps.uchoteles.businessLayer.impl.GestionReservasTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.066 s -- in es.unican.ps.uchoteles.businessLayer.impl.GestionReservasTest

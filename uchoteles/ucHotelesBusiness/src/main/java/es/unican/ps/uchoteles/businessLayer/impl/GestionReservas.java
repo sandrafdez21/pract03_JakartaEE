@@ -9,6 +9,7 @@ import es.unican.ps.uchoteles.businessLayer.IGestionReservasClienteLocal;
 import es.unican.ps.uchoteles.businessLayer.IGestionReservasClienteRemote;
 import es.unican.ps.uchoteles.businessLayer.IGestionReservasGerenteLocal;
 import es.unican.ps.uchoteles.businessLayer.IGestionReservasGerenteRemote;
+import es.unican.ps.uchoteles.daoLayer.DataAccessException;
 import es.unican.ps.uchoteles.daoLayer.IClientesDAO;
 import es.unican.ps.uchoteles.daoLayer.IHotelesDAO;
 import es.unican.ps.uchoteles.daoLayer.IReservasDAO;
@@ -32,9 +33,17 @@ public class GestionReservas implements IGestionReservasClienteLocal, IGestionRe
     @EJB
     private IHotelesDAO hotelesDAO;
 
+    public GestionReservas(IReservasDAO reservasDAO) {
+        this.reservasDAO = reservasDAO;
+    }
+
     @Override
-    public List<Habitacion> consultarDisponibilidad(Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida) {
+    public List<Habitacion> consultarDisponibilidad(Hotel hotel, LocalDate fechaEntrada, LocalDate fechaSalida) throws DataAccessException, FechasNoValidasException {
         
+        if (!fechaSalida.isAfter(fechaEntrada)) {
+            throw new FechasNoValidasException();
+        }
+
         List<Habitacion> habitacionesDisponibles = new ArrayList<>();
         List<Reserva> reservas = reservasDAO.reservasPorHotel(hotel);
 
@@ -55,12 +64,9 @@ public class GestionReservas implements IGestionReservasClienteLocal, IGestionRe
             }
 
             if (disponibles > 0) {
-                habitacionesDisponibles.add(h);
+                Habitacion h2 = new Habitacion(h.getPrecioPorNoche(), disponibles, h.getTipo());
+                habitacionesDisponibles.add(h2);
             }
-        }
-
-        if (habitacionesDisponibles.isEmpty()) {
-            throw new IllegalArgumentException("No hay disponibilidad, pruebe otras fechas");
         }
 
         return habitacionesDisponibles;
@@ -95,7 +101,7 @@ public class GestionReservas implements IGestionReservasClienteLocal, IGestionRe
     }
 
     @Override
-    public double bloquearHabitaciones(Reserva reserva) {
+    public double bloquearHabitaciones(Reserva reserva) throws DataAccessException {
         long nochesTotales = ChronoUnit.DAYS.between(reserva.getFechaEntrada(), reserva.getFechaSalida());
         double importeTotal = 0.0;
         
@@ -154,7 +160,7 @@ public class GestionReservas implements IGestionReservasClienteLocal, IGestionRe
     
 
     @Override
-    public List<Reserva> consultarReservasHotel(String nombreHotel) {
+    public List<Reserva> consultarReservasHotel(String nombreHotel) throws DataAccessException {
         return reservasDAO.reservasPorHotel(hotelesDAO.hotel(nombreHotel));
     }
     

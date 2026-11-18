@@ -14,4 +14,10 @@ public class Habitacion {
 
     private TipoHabitacion tipo;
 
+    public Habitacion (double precioPorNoche, int disponibles, TipoHabitacion tipo) {
+        this.precioPorNoche = precioPorNoche;
+        this.disponibles = disponibles;
+        this.tipo = tipo;
+    }
+
 }
